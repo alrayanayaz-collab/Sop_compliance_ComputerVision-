@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant SOP Compliance Dashboard</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f0f2f5; 
+            margin: 0; 
+            padding: 24px; 
+        }
+        h1 { 
+            color: #1e293b; 
+            margin-bottom: 20px; 
+            font-size: 26px; 
+        }
+        .container { 
+            display: flex; 
+            gap: 24px; 
+            align-items: flex-start; 
+        }
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
+        }
+        .video-box { 
+            flex: 2; 
+        }
+        .alert-box { 
+            flex: 1.2; 
+        }
+        h2 { 
+            font-size: 18px; 
+            margin-top: 0; 
+            color: #334155; 
+            border-bottom: 2px solid #e2e8f0; 
+            padding-bottom: 10px; 
+        }
+        .stream-frame { 
+            width: 100%; 
+            border-radius: 8px; 
+            border: 2px solid #cbd5e1; 
+            background-color: #000; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 12px; 
+        }
+        th, td { 
+            border: 1px solid #e2e8f0; 
+            padding: 10px; 
+            text-align: left; 
+            font-size: 14px; 
+        }
+        th { 
+            background-color: #ef4444; 
+            color: white; 
+            font-weight: 600; 
+        }
+        tr:nth-child(even) { 
+            background-color: #f8fafc; 
+        }
+        .badge { 
+            display: inline-block; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            background: #fee2e2; 
+            color: #dc2626; 
+            font-weight: bold; 
+            font-size: 12px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Restaurant SOP Compliance Monitoring System</h1>
+    <div class="container">
+        <!-- Live Video Stream -->
+        <div class="card video-box">
+            <h2>Live CCTV Feed (Kitchen)</h2>
+            <img class="stream-frame" src="{{ url_for('video_feed') }}" alt="Camera Stream">
+        </div>
+
+        <!-- Violation Log Table -->
+        <div class="card alert-box">
+            <h2>Recent Violations Log</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Violation Type</th>
+                        <th>Camera ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alert in alerts %}
+                    <tr>
+                        <td>{{ alert[1] }}</td>
+                        <td><span class="badge">{{ alert[2] }}</span></td>
+                        <td>{{ alert[3] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: #64748b;">No violations logged yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
